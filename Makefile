@@ -9,9 +9,9 @@ QEMU = qemu-system-i386
 QEMU_FLAGS = -serial stdio -monitor /dev/stdout -m 32 -d int -D log.txt
 
 # Script related
-G++ = ./Toolchain/i686/bin/i686-elf-g++
-AS = ./Toolchain/i686/bin/i686-elf-as
-LD = ./Toolchain/i686/bin/i686-elf-ld
+G++ = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-g++
+AS = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-as
+LD = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-ld
 
 #G++ = $(CXX)
 #AS = $(AS)
