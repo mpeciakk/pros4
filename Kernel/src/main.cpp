@@ -2,6 +2,7 @@
 #include <Hardware/IDT.hpp>
 #include <Terminal.hpp>
 #include <Multiboot.hpp>
+#include <Lib/Log.hpp>
 
 extern "C" [[noreturn]] void kmain(multiboot_info* mbi, unsigned int multibootMagic) {
     Terminal terminal;
@@ -12,7 +13,8 @@ extern "C" [[noreturn]] void kmain(multiboot_info* mbi, unsigned int multibootMa
     InterruptManager idt;
     idt.activate();
 
-    terminal.write("Kernel loaded!");
+    klog(0, "Kernel loaded!");
+    log(0, "Kernel loaded!");
 
     while (true) {
     }

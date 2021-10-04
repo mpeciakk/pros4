@@ -6,7 +6,8 @@ DISK_IMG = pros.img
 
 QEMU = qemu-system-i386
 
-QEMU_FLAGS = -serial stdio -monitor /dev/stdout -m 32 -d int -D log.txt
+QEMU_FLAGS = -serial stdio -m 32 -d int -D log.txt
+# -monitor /dev/stdout
 
 # Script related
 G++ = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-g++
@@ -75,5 +76,7 @@ qemu:
 clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf iso
+
+clear: clean
 
 .PHONY: clean
