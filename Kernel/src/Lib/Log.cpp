@@ -45,9 +45,23 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             u32 len = strlen(str);
             printFunction((char*) str, len);
         } else if (*format == 'd') {
-            // TODO
+            format++;
+            int n = va_arg(parameters, int);
+            int numChars = countDigit(n);
+
+            char str[numChars + 1];
+            itoa(n, str, 10);
+
+            printFunction(str, numChars + 1);
         } else if (*format == 'x') {
-            // TODO
+            format++;
+            int n = va_arg(parameters, int);
+            int numChars = countDigit(n, 16);
+
+            char str[numChars + 1];
+            itoa(n, str, 16);
+
+            printFunction(str, numChars + 1);
         } else {
             format = format_begun_at;
             u32 len = strlen(format);
@@ -88,6 +102,7 @@ void log(int level, const char* __restrict format, ...) {
     }
 
     internalPrintf(rawPrint, format, parameters);
+    internalPrintf(rawPrint, "\n", parameters);
     va_end(parameters);
 }
 
@@ -100,7 +115,7 @@ void klog(int level, const char* __restrict format, ...) {
             internalPrintf(rawKPrint, "[\033[32mLOG\033[39m] ", parameters);
             break;
         case 1:
-            internalPrintf(rawPrint, "[\033[33mWARN\033[39m] ", parameters);
+            internalPrintf(rawKPrint, "[\033[33mWARN\033[39m] ", parameters);
             break;
         case 2:
             internalPrintf(rawKPrint, "[\033[31mERR\033[39m] ", parameters);
@@ -110,5 +125,6 @@ void klog(int level, const char* __restrict format, ...) {
     }
 
     internalPrintf(rawKPrint, format, parameters);
+    internalPrintf(rawKPrint, "\n", parameters);
     va_end(parameters);
 }

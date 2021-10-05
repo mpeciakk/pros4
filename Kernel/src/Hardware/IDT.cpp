@@ -109,7 +109,7 @@ void InterruptManager::setIDTEntry(u8 interrupt, void (*handler)(), u16 codeSegm
 }
 
 u32 InterruptManager::handleException(u8 exception, u32 esp) {
-    auto* frame = (TrapFrame*) esp;
+    klog(2, "ERROR - %s", exceptions[exception]);
 
     deactivate();
 
