@@ -1,4 +1,5 @@
 #include <Hardware/IDT.hpp>
+#include <Lib/Log.hpp>
 
 char* exceptions[] = {"Division by zero",
                       "Debug",
