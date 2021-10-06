@@ -41,6 +41,13 @@ int strcmp(const char* a, const char* b) {
     return *(const unsigned char*) a - *(const unsigned char*) b;
 }
 
+char* strcpy(char* strDest, const char* strSrc) {
+    char* temp = strDest;
+    while ((*strDest++ = *strSrc++) != '\0') {
+    }
+    return temp;
+}
+
 u32 countDigit(u32 n, u32 base) {
     int count = 0;
     while (n != 0) {

@@ -15,3 +15,19 @@ public:
 private:
     PhysicalPtr address;
 };
+
+class PhysicalPage {
+public:
+    PhysicalPage(PhysicalAddress address) : address(address) {}
+
+    PhysicalPage addr() {
+        return address;
+    }
+
+    void free() {
+
+    }
+
+private:
+    PhysicalAddress address;
+};

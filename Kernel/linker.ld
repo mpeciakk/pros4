@@ -11,6 +11,7 @@ SECTIONS {
         *(.multiboot)
         *(.text)
     }
+
     .rodata ALIGN (4K) : AT(ADDR(.rodata)-0xC0000000) {
         *(.rodata*)
     }
@@ -26,6 +27,8 @@ SECTIONS {
         *(COMMON)
         *(.bss)
         *(.bootstrap_stack)
+
+        KEEP(*(.heap))
     }
 
     kernelEnd = .;
