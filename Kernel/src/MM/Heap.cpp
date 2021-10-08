@@ -14,6 +14,8 @@ Heap::Heap(u32 start, u32 size) {
         first->prev = nullptr;
         first->next = nullptr;
         first->size = size - sizeof(MemoryChunk);
+
+        first->magic = HEAP_MAGIC;
     }
 }
 
@@ -27,6 +29,10 @@ void* Heap::malloc(u32 size) {
     MemoryChunk* result = nullptr;
 
     for (MemoryChunk* chunk = first; chunk != nullptr && result == nullptr; chunk = chunk->next) {
+        if (chunk->magic != HEAP_MAGIC) {
+            klog(1, "HEAP: MemoryChunk magic number is incorrect");
+        }
+
         if (chunk->size > size && !chunk->allocated) {
             result = chunk;
         }
@@ -46,6 +52,7 @@ void* Heap::malloc(u32 size) {
         temp->size = result->size - size - sizeof(MemoryChunk);
         temp->prev = result;
         temp->next = result->next;
+        temp->magic = HEAP_MAGIC;
 
         if (temp->next != nullptr) {
             temp->next->prev = temp;
@@ -58,13 +65,6 @@ void* Heap::malloc(u32 size) {
     result->allocated = true;
 
     usedMemory += size + sizeof(MemoryChunk);
-
-    for (MemoryChunk* chunk = first; chunk != nullptr; chunk = chunk->next) {
-        if (chunk->size > size && !chunk->allocated) {
-            result = chunk;
-        }
-    }
-
 
     return (void*) (((u32) result) + sizeof(MemoryChunk));
 }

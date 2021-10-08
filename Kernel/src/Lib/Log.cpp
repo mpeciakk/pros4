@@ -55,10 +55,10 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             printFunction(str, numChars + 1);
         } else if (*format == 'x') {
             format++;
-            int n = va_arg(parameters, int);
+            u32 n = va_arg(parameters, u32);
             int numChars = countDigit(n, 16);
 
-            char str[numChars + 1];
+            char str[numChars];
             itoa(n, str, 16);
 
             printFunction(str, numChars + 1);

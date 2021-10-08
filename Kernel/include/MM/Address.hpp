@@ -1,10 +1,12 @@
-typedef u32 PhysicalPtr;
+#ifndef __ADDRESS_HPP
+#define __ADDRESS_HPP
 
 class PhysicalAddress {
 public:
-    PhysicalAddress(PhysicalPtr address) : address(address) {}
+    PhysicalAddress(u32 address) : address(address) {}
+    PhysicalAddress() : address(0) {}
 
-    PhysicalPtr get() {
+    u32 get() {
         return address;
     }
 
@@ -13,7 +15,7 @@ public:
     }
 
 private:
-    PhysicalPtr address;
+    u32 address;
 };
 
 class PhysicalPage {
@@ -31,3 +33,5 @@ public:
 private:
     PhysicalAddress address;
 };
+
+#endif

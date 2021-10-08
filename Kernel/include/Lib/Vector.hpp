@@ -7,9 +7,7 @@ private:
     T* data;
 
 public:
-    Vector() : capacity(initialCapacity), data((T*) kmalloc(sizeof(T) * capacity)) {
-        klog(0, "0x%x", (u32) data);
-    }
+    Vector() : capacity(initialCapacity), data(new T[capacity]) { }
 
     ~Vector() {
         clear();
@@ -49,6 +47,8 @@ private:
         }
 
         T* temp = new T[desiredCapacity];
+
+//        T* temp = (T*) kmalloc(sizeof(T) * desiredCapacity);
 
         for (int i = 0; i < capacity; i++) {
             temp[i] = data[i];

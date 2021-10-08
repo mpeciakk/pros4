@@ -36,6 +36,10 @@ bootPageDirectory:
 	# this page contains the Kernel
 	.long 0x00000083
 
+	# Heap pages at 0xC0800000
+    .long 0
+    .long 0x00000083
+
 	# pages after Kernel
 	.rept (1024 - KERNEL_PAGE_NUMBER - 1)
 	.long 0

@@ -3,6 +3,8 @@
 
 #include "Heap.hpp"
 
+#define KHEAP_START 0xC0800000
+
 class BasicMemoryAllocator : public Singleton<BasicMemoryAllocator> {
 public:
     BasicMemoryAllocator();

@@ -57,7 +57,7 @@ u32 countDigit(u32 n, u32 base) {
     return count;
 }
 
-int abs(int n) {
+u32 abs(u32 n) {
     return (n >= 0) ? n : -n;
 }
 
@@ -75,18 +75,18 @@ char* reverse(char* buffer, int i, int j) {
     return buffer;
 }
 
-char* itoa(int value, char* buffer, int base) {
+char* itoa(u32 value, char* buffer, int base) {
     // Only when heap is uninitialized
     // TODO: write better way with heap initialized
     if (base < 2 || base > 32) {
         return buffer;
     }
 
-    int n = abs(value);
+    u32 n = abs(value);
 
-    int i = 0;
+    u32 i = 0;
     while (n) {
-        int r = n % base;
+        u32 r = n % base;
 
         if (r >= 10) {
             buffer[i++] = 65 + (r - 10);

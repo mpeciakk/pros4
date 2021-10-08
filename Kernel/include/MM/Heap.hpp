@@ -3,10 +3,13 @@
 
 #include <Lib/Types.hpp>
 
+#define HEAP_MAGIC 0x2137DEAD
+
 struct MemoryChunk {
     MemoryChunk* next;
     MemoryChunk* prev;
 
+    u32 magic;
     bool allocated;
     u32 size;
 };

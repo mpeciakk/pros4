@@ -1,14 +1,12 @@
 #include <Lib/Log.hpp>
 #include <MM/kmalloc.hpp>
 
-// It's a bad implementation of kernel heap
-// but unless we initialize memory manager it's enough I think
-__attribute__((section(".heap"))) static u8 kmallocHeap[2 * 1024 * 1024];
+// 4MB for kernel heap are mapped in the initial boot process
+// I don't know if it's right to do this
+// but it works well so :shrug:
 
-BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) kmallocHeap, 2 * 1024 * 1024) {
+BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) KHEAP_START, 4 * 1024 * 1024) {
     instance = this;
-
-//    klog(0, "0x%x", (u32) kmallocHeap);
 }
 
 void* BasicMemoryAllocator::malloc(u32 size) {
