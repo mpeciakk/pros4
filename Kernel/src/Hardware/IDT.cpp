@@ -1,5 +1,4 @@
 #include <Hardware/IDT.hpp>
-#include <Lib/Log.hpp>
 
 char* exceptions[] = {"Division by zero",
                       "Debug",
@@ -108,12 +107,12 @@ void InterruptManager::setIDTEntry(u8 interrupt, void (*handler)(), u16 codeSegm
     idt[interrupt].zero = 0;
 }
 
-u32 InterruptManager::handleException(u8 exception, u32 esp) {
-    klog(2, "ERROR - %s", exceptions[exception]);
-
+[[noreturn]] void InterruptManager::handleException(u8 exception, u32 esp) {
+    // TODO: find out why it doesn't deactivate interrupts
     deactivate();
 
-    return esp;
+    while (true) {
+    }
 }
 
 u32 InterruptManager::handleInterrupt(u8 interrupt, u32 esp) {
@@ -121,12 +120,12 @@ u32 InterruptManager::handleInterrupt(u8 interrupt, u32 esp) {
 }
 
 u32 InterruptManager::doHandleInterrupt(u8 interrupt, u32 esp) {
-    if (interrupt <= 0x13) {
-        handleException(interrupt, esp);
-    }
-
     if (handlers[interrupt] != nullptr) {
         esp = handlers[interrupt]->handle(esp);
+    }
+
+    if (interrupt <= 0x13) {
+        handleException(interrupt, esp);
     }
 
     if (0x20 <= interrupt && interrupt < 0x30) {
@@ -138,10 +137,6 @@ u32 InterruptManager::doHandleInterrupt(u8 interrupt, u32 esp) {
     }
 
     return esp;
-}
-
-InterruptHandler::InterruptHandler(u8 interrupt) {
-    InterruptManager::instance->handlers[interrupt] = this;
 }
 
 InterruptHandler::~InterruptHandler() {

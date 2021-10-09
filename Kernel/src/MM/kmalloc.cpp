@@ -5,7 +5,9 @@
 // I don't know if it's right to do this
 // but it works well so :shrug:
 
-BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) KHEAP_START, 4 * 1024 * 1024) {
+__attribute__((section(".heap"))) static u8 kmallocHeap[2 * 1024 * 1024];
+
+BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) kmallocHeap, 4 * 1024 * 1024) {
     instance = this;
 }
 

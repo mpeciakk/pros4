@@ -61,6 +61,8 @@ handleInterrupt 0x31
 handleInterrupt 0x80
 
 int_bottom:
+    cli
+
     pushl %ebp
     pushl %edi
     pushl %esi
@@ -84,7 +86,9 @@ int_bottom:
     popl %edi
     popl %ebp
 
-    add $4, %esp
+    add $12, %esp
+
+    sti
 
 .global _ZN16InterruptManager15ignoreInterruptEv
 _ZN16InterruptManager15ignoreInterruptEv:

@@ -1,3 +1,4 @@
+#include <Exceptions.hpp>
 #include <Hardware/GDT.hpp>
 #include <Hardware/IDT.hpp>
 #include <Lib/Log.hpp>
@@ -22,11 +23,16 @@ extern "C" [[noreturn]] void kmain(multiboot_info* mbi, unsigned int multibootMa
 
     BasicMemoryAllocator bma;
 
+    idt.handlers[14] = new PageFaultHandler();
+
     MemoryManager mm;
     mm.parseMemoryMap((u32*) mbi->mmap_addr, mbi->mmap_length);
 
     klog(0, "Kernel loaded!");
     log(0, "Kernel loaded!");
+
+    int* a = (int*) 0xC2137420;
+    *a = 2137;
 
     while (true) {
     }

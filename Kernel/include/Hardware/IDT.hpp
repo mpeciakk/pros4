@@ -13,22 +13,19 @@ struct TrapFrame {
     u32 ecx;
     u32 edx;
 
-    u32 esi; // stack index
-    u32 edi; // data index
-    u32 ebp; // base pointer
+    u32 esi;
+    u32 edi;
+    u32 ebp;
 
     u32 error;
 
-    u32 eip; // instruction pointer
-    u32 cs;  // code segment
-    u32 flags;
-    u32 esp; // stack pointer
-    u32 ss;  // stack segment
+    u32 eip, cs, eflags;
+    u32 esp, ss;
 } __attribute__((packed));
 
 class InterruptHandler {
 public:
-    InterruptHandler(u8 interrupt);
+    InterruptHandler() = default;
     ~InterruptHandler();
 
     virtual u32 handle(u32 esp);
@@ -70,7 +67,7 @@ private:
 
     void setIDTEntry(u8 interrupt, void (*handler)(), u16 codeSegment, u8 flags = 0);
 
-    u32 handleException(u8 exception, u32 esp);
+    [[noreturn]] void handleException(u8 exception, u32 esp);
 
     static u32 handleInterrupt(u8 interrupt, u32 esp);
     u32 doHandleInterrupt(u8 interrupt, u32 esp);
