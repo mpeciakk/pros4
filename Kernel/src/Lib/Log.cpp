@@ -49,10 +49,10 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             int n = va_arg(parameters, int);
             int numChars = countDigit(n);
 
-            char str[numChars + 1];
+            char str[numChars];
             itoa(n, str, 10);
 
-            printFunction(str, numChars + 1);
+            printFunction(str, numChars);
         } else if (*format == 'x') {
             format++;
             u32 n = va_arg(parameters, u32);
@@ -61,7 +61,7 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             char str[numChars];
             itoa(n, str, 16);
 
-            printFunction(str, numChars + 1);
+            printFunction(str, numChars);
         } else {
             format = format_begun_at;
             u32 len = strlen(format);
@@ -119,6 +119,9 @@ void klog(int level, const char* __restrict format, ...) {
             break;
         case 2:
             internalPrintf(rawKPrint, "[\033[31mERR\033[39m] ", parameters);
+            break;
+        case 3:
+            internalPrintf(rawKPrint, "[\033[36mDBG\033[39m] ", parameters);
             break;
         default:
             break;

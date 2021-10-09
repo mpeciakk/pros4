@@ -7,15 +7,6 @@ PageFaultHandler::PageFaultHandler() : InterruptHandler() { }
 u32 PageFaultHandler::handle(u32 esp) {
     auto* frame = (TrapFrame*) esp;
 
-    //    klog(2,
-    //         "------------%s------------\n"
-    //         "eax: 0x%x, ebx: 0x%x, ecx: 0x%x, edx: 0x%x\n"
-    //         "esi: 0x%x, edi: 0x%x, ebp: 0x%x\n"
-    //         "error: 0x%x, flags: 0x%x, eip: 0x%x\n"
-    //         "cs: 0x%x, esp: 0x%x, ss: 0x%x",
-    //         exceptions[exception], frame->eax, frame->ebx, frame->ecx, frame->edx, frame->esi, frame->edi, frame->ebp, frame->error,
-    //         frame->eflags, frame->eip, frame->cs, frame->esp, frame->ss);
-
     u32 cr2;
     asm volatile("mov %%cr2, %0" : "=r"(cr2));
 

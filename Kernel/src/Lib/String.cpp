@@ -51,7 +51,7 @@ char* strcpy(char* strDest, const char* strSrc) {
 u32 countDigit(u32 n, u32 base) {
     int count = 0;
     while (n != 0) {
-        n = n / 10;
+        n = n / base;
         ++count;
     }
     return count;
