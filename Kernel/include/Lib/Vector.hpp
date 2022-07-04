@@ -1,4 +1,8 @@
+#ifndef __VECTOR_HPP
+#define __VECTOR_HPP
+
 #include <MM/kmalloc.hpp>
+
 template <typename T, u32 initialCapacity = 8> class Vector {
 private:
     u32 capacity = 8;
@@ -59,3 +63,5 @@ private:
         data = temp;
     }
 };
+
+#endif

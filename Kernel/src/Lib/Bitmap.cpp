@@ -1,5 +1,6 @@
 #include <Lib/Bitmap.hpp>
 #include <Lib/String.hpp>
+#include "Lib/Log.hpp"
 
 Bitmap::Bitmap(u32* memoryMap, u32 size, bool initializeWithOne) {
     if (initializeWithOne) {

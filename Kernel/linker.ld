@@ -27,8 +27,6 @@ SECTIONS {
         *(COMMON)
         *(.bss)
         *(.bootstrap_stack)
-
-        KEEP(*(.heap))
     }
 
     kernelEnd = .;

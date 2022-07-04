@@ -1,13 +1,13 @@
 #include <Lib/Log.hpp>
 #include <MM/kmalloc.hpp>
 
-// 4MB for kernel heap are mapped in the initial boot process
+// basic heap before initializing virtual memory
 // I don't know if it's right to do this
-// but it works well so :shrug:
+// but it works so :shrug:
 
-__attribute__((section(".heap"))) static u8 kmallocHeap[2 * 1024 * 1024];
+static u8 kmallocHeap[1024];
 
-BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) kmallocHeap, 4 * 1024 * 1024) {
+BasicMemoryAllocator::BasicMemoryAllocator() : heap((u32) kmallocHeap, 1024) {
     instance = this;
 }
 
@@ -17,6 +17,10 @@ void* BasicMemoryAllocator::malloc(u32 size) {
 
 void BasicMemoryAllocator::free(void* address) {
     return heap.free(address);
+}
+
+u32 BasicMemoryAllocator::usage() {
+    return heap.usage();
 }
 
 void* kmalloc(u32 size) {

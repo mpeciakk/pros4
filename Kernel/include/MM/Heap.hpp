@@ -19,8 +19,10 @@ public:
     Heap(u32 start, u32 size);
 
     void* malloc(u32 size);
-
     void free(void* ptr);
+    void dump();
+
+    u32 usage();
 
 private:
     u32 memorySize;

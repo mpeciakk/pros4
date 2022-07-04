@@ -49,6 +49,10 @@ char* strcpy(char* strDest, const char* strSrc) {
 }
 
 u32 countDigit(u32 n, u32 base) {
+    if (n == 0) {
+        return 1;
+    }
+
     int count = 0;
     while (n != 0) {
         n = n / base;
@@ -75,7 +79,7 @@ char* reverse(char* buffer, int i, int j) {
     return buffer;
 }
 
-char* itoa(u32 value, char* buffer, int base) {
+char* itos(u32 value, char* buffer, int base) {
     // Only when heap is uninitialized
     // TODO: write better way with heap initialized
     if (base < 2 || base > 32) {

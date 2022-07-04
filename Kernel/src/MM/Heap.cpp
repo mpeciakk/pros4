@@ -1,7 +1,10 @@
 #include <Lib/Log.hpp>
+#include <Lib/String.hpp>
 #include <MM/Heap.hpp>
 
 Heap::Heap(u32 start, u32 size) {
+    memset((void*) start, 0, size);
+
     usedMemory = 0;
     memorySize = size;
 
@@ -17,6 +20,10 @@ Heap::Heap(u32 start, u32 size) {
 
         first->magic = HEAP_MAGIC;
     }
+}
+
+u32 Heap::usage() {
+    return usedMemory;
 }
 
 void* Heap::malloc(u32 size) {
@@ -39,19 +46,19 @@ void* Heap::malloc(u32 size) {
     }
 
     if (result == nullptr) {
-        klog(2, "Out of memory [result is null]");
+        klog(2, "HEAP: Out of memory [can't find free memory chunk]");
 
         return nullptr;
     }
 
-    if (result->size >= size + sizeof(MemoryChunk) + 1) {
+    if (result->size >= size + sizeof(MemoryChunk)) {
         auto* temp = (MemoryChunk*) ((u32) result + sizeof(MemoryChunk) + size);
         memset(temp, 0, sizeof(MemoryChunk));
 
         temp->allocated = false;
         temp->size = result->size - size - sizeof(MemoryChunk);
         temp->prev = result;
-        temp->next = result->next;
+        temp->next = nullptr;
         temp->magic = HEAP_MAGIC;
 
         if (temp->next != nullptr) {
@@ -60,9 +67,8 @@ void* Heap::malloc(u32 size) {
 
         result->size = size;
         result->next = temp;
+        result->allocated = true;
     }
-
-    result->allocated = true;
 
     usedMemory += size + sizeof(MemoryChunk);
 
@@ -92,5 +98,17 @@ void Heap::free(void* ptr) {
         if (chunk->next != nullptr) {
             chunk->next->prev = chunk->prev;
         }
+    }
+}
+
+void Heap::dump() {
+    MemoryChunk* tmp;
+
+    tmp = first;
+
+    while (tmp != nullptr) {
+        klog(0, "\nprev - %d\ncurr - %d\nnext - %d\nsize - %d\nallocated - %d\nmagic - %d", tmp->prev, tmp, tmp->next, tmp->size, tmp->allocated, tmp->magic);
+
+        tmp = tmp->next;
     }
 }

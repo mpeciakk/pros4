@@ -50,7 +50,7 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             int numChars = countDigit(n);
 
             char str[numChars];
-            itoa(n, str, 10);
+            itos(n, str, 10);
 
             printFunction(str, numChars);
         } else if (*format == 'x') {
@@ -59,7 +59,7 @@ void internalPrintf(void (*printFunction)(char* text, u32 length), const char* _
             int numChars = countDigit(n, 16);
 
             char str[numChars];
-            itoa(n, str, 16);
+            itos(n, str, 16);
 
             printFunction(str, numChars);
         } else {

@@ -7,6 +7,7 @@
 #include <MM/kmalloc.hpp>
 #include <Multiboot.hpp>
 #include <Terminal.hpp>
+#include <Debug/Tests.hpp>
 
 extern "C" [[noreturn]] void kmain(multiboot_info* mbi, unsigned int multibootMagic) {
     Terminal terminal;
@@ -25,14 +26,17 @@ extern "C" [[noreturn]] void kmain(multiboot_info* mbi, unsigned int multibootMa
 
     idt.handlers[14] = new PageFaultHandler();
 
-    MemoryManager mm;
-    mm.parseMemoryMap((u32*) mbi->mmap_addr, mbi->mmap_length);
+    //    MemoryManager mm;
+    //    mm.parseMemoryMap((u32*) mbi->mmap_addr, mbi->mmap_length);
+    //    mm.initPaging();
 
     klog(0, "Kernel loaded!");
     log(0, "Kernel loaded!");
 
-    int* a = (int*) 0xC2137420;
-    *a = 2137;
+    performTests();
+
+    //    int* a = (int*) 0xC2137420;
+    //    *a = 2137;
 
     while (true) {
     }

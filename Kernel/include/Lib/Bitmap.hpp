@@ -9,7 +9,6 @@ public:
 
     void set(u32 bit);
     void unset(u32 bit);
-    u32 get(u32 bit);
     bool test(u32 bit);
 
     u32 getFirstFree(u32 count = 1);

@@ -9,9 +9,9 @@ QEMU = qemu-system-i386
 QEMU_FLAGS = -serial stdio -m 32 -d int -D log.txt -monitor /dev/stdout
 
 # Script related
-G++ = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-g++
-AS = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-as
-LD = /mnt/e/pros4/Toolchain/i686/bin/i686-elf-ld
+G++ = /home/maciek/Projects/pros4/Toolchain/i686/bin/i686-elf-g++
+AS = /home/maciek/Projects/pros4/Toolchain/i686/bin/i686-elf-as
+LD = /home/maciek/Projects/pros4/Toolchain/i686/bin/i686-elf-ld
 
 #G++ = $(CXX)
 #AS = $(AS)
@@ -61,11 +61,14 @@ iso: kernel
 	echo '  multiboot /boot/pros.bin'    	 >> iso/boot/grub/grub.cfg
 	echo '  boot'                            >> iso/boot/grub/grub.cfg
 	echo '}'                                 >> iso/boot/grub/grub.cfg
-	grub-mkrescue --output=$(BUILD_DIR)/pros.iso iso
+	grub-mkrescue --xorriso=/home/maciek/xorriso-1.5.4/xorriso/xorriso --output=$(BUILD_DIR)/pros.iso iso
 	rm -rf iso
 
-run: clean iso
-	$(QEMU) $(QEMU_FLAGS) $(BUILD_DIR)/pros.iso
+build: clean kernel
+
+run:
+	#$(QEMU) $(QEMU_FLAGS) $(BUILD_DIR)/pros.iso
+	$(QEMU) $(QEMU_FLAGS) -kernel $(BUILD_DIR)/pros.bin
 	# -drive file=$(DISK_IMG)
 
 qemu:
